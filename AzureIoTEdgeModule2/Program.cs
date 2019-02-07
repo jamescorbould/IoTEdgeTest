@@ -1,4 +1,4 @@
-namespace AzureIoTEdgeModule1
+namespace AzureIoTEdgeModule2
 {
     using System;
     using System.IO;

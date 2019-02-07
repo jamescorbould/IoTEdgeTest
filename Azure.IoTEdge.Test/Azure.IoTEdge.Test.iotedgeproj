@@ -15,9 +15,14 @@
   </PropertyGroup>
   <Import Project="AzureIoTEdgeProject.targets" />
   <ItemGroup>
+    <None Include="deployment - Copy.template.json" />
     <None Include="deployment.template.json" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AzureIoTEdgeModule1\AzureIoTEdgeModule1.csproj" />
+    <ProjectReference Include="..\AzureIoTEdgeModule2\AzureIoTEdgeModule2.csproj" />
   </ItemGroup>
+  <Import Project="$(SolutionDir)\packages\Microsoft.VisualStudio.Azure.IoT.Edge.MSBuildTasks.0.1.4\build\AzureIoTEdgeProject.Build.targets" Condition="Exists('$(SolutionDir)\packages\Microsoft.VisualStudio.Azure.IoT.Edge.MSBuildTasks.0.1.4\build\AzureIoTEdgeProject.Build.targets')" />
+  <Import Project="$(SolutionDir)\packages\Microsoft.VisualStudio.Azure.IoT.Edge.MSBuildTasks.0.1.4\build\AzureIoTEdgeProject.Build.props" Condition="Exists('$(SolutionDir)\packages\Microsoft.VisualStudio.Azure.IoT.Edge.MSBuildTasks.0.1.4\build\AzureIoTEdgeProject.Build.props')" />
 </Project>

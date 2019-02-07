@@ -12,7 +12,7 @@
             "registryCredentials": {
               "username": "jamescorbould",
               "password": "Ragnar777",
-              "address": "jamescorbould"
+              "address": "jamescorbould.docker.com" 
             }
           }
         },
@@ -20,7 +20,7 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+              "image": "microsoft/azureiotedge-agent:1.0.0-preview022-linux-arm32v7",
               "createOptions": {}
             }
           },
@@ -29,7 +29,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+              "image": "microsoft/azureiotedge-hub:1.0.0-preview022-linux-arm32v7",
               "createOptions": {
                 "HostConfig": {
                   "PortBindings": {
@@ -61,7 +61,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
+              "image": "microsoft/azureiotedge-simulated-temperature-sensor:1.0.0-preview022-linux-arm32v7",
               "createOptions": {}
             }
           },

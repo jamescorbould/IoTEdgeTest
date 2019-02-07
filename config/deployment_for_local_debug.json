@@ -1,5 +1,4 @@
 {
-  "$schema-template": "1.0.0",
   "modulesContent": {
     "$edgeAgent": {
       "properties.desired": {
@@ -12,7 +11,7 @@
             "registryCredentials": {
               "username": "jamescorbould",
               "password": "Ragnar777",
-              "address": "jamescorbould"
+              "address": "jamescorbould.docker.com"
             }
           }
         },
@@ -20,8 +19,8 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
-              "createOptions": {}
+              "image": "microsoft/azureiotedge-agent:1.0.0-preview022-linux-arm32v7",
+              "createOptions": "{}"
             }
           },
           "edgeHub": {
@@ -29,28 +28,8 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
-              "createOptions": {
-                "HostConfig": {
-                  "PortBindings": {
-                    "5671/tcp": [
-                      {
-                        "HostPort": "5671"
-                      }
-                    ],
-                    "8883/tcp": [
-                      {
-                        "HostPort": "8883"
-                      }
-                    ],
-                    "443/tcp": [
-                      {
-                        "HostPort": "443"
-                      }
-                    ]
-                  }
-                }
-              }
+              "image": "microsoft/azureiotedge-hub:1.0.0-preview022-linux-arm32v7",
+              "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}],\"443/tcp\":[{\"HostPort\":\"443\"}]}}}"
             }
           }
         },
@@ -61,28 +40,8 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0",
-              "createOptions": {}
-            }
-          },
-          "AzureIoTEdgeModule1": {
-            "version": "1.0.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "${MODULES.AzureIoTEdgeModule1}",
-              "createOptions": {}
-            }
-          },
-          "AzureIoTEdgeModule2": {
-            "version": "1.0.0",
-            "type": "docker",
-            "status": "running",
-            "restartPolicy": "always",
-            "settings": {
-              "image": "${MODULES.AzureIoTEdgeModule2}",
-              "createOptions": {}
+              "image": "microsoft/azureiotedge-simulated-temperature-sensor:1.0.0-preview022-linux-arm32v7",
+              "createOptions": "{}"
             }
           }
         }
