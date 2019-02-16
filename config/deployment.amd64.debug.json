@@ -9,9 +9,11 @@
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              "username": "jamescorbould",
-              "password": "Ragnar777",
-              "address": "jamescorbould"
+              "registry1": {
+                "username": "edgelife",
+                "password": "kIRG6Aj8Y40ULOC8if=PEwfhLK6L3yYg",
+                "address": "edgelife.azurecr.io"
+              }
             }
           }
         },
@@ -50,7 +52,17 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "localhost:5000/azureiotedgemodule1:0.0.1-amd64.debug",
+              "image": "edgelife.azurecr.io/azureiotedgemodule1:0.0.1-amd64.debug",
+              "createOptions": "{}"
+            }
+          },
+          "AzureIoTEdgeModule2": {
+            "version": "1.0.0",
+            "type": "docker",
+            "status": "running",
+            "restartPolicy": "always",
+            "settings": {
+              "image": "edgelife.azurecr.io/azureiotedgemodule2:0.0.1-amd64.debug",
               "createOptions": "{}"
             }
           }
@@ -62,7 +74,9 @@
         "schemaVersion": "1.0",
         "routes": {
           "AzureIoTEdgeModule1ToIoTHub": "FROM /messages/modules/AzureIoTEdgeModule1/outputs/* INTO $upstream",
-          "sensorToAzureIoTEdgeModule1": "FROM /messages/modules/tempSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/AzureIoTEdgeModule1/inputs/input1\")"
+          "sensorToAzureIoTEdgeModule1": "FROM /messages/modules/tempSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/AzureIoTEdgeModule1/inputs/input1\")",
+          "AzureIoTEdgeModule2ToIoTHub": "FROM /messages/modules/AzureIoTEdgeModule2/outputs/* INTO $upstream",
+          "sensorToAzureIoTEdgeModule2": "FROM /messages/modules/tempSensor/outputs/temperatureOutput INTO BrokeredEndpoint(\"/modules/AzureIoTEdgeModule2/inputs/input1\")"
         },
         "storeAndForwardConfiguration": {
           "timeToLiveSecs": 7200

@@ -9,9 +9,11 @@
             "minDockerVersion": "v1.25",
             "loggingOptions": "",
             "registryCredentials": {
-              "username": "jamescorbould",
-              "password": "Ragnar777",
-              "address": "jamescorbould.docker.com"
+              "registry1": {
+                "username": "edgelife",
+                "password": "kIRG6Aj8Y40ULOC8if=PEwfhLK6L3yYg",
+                "address": "edgelife.azurecr.io"
+              }
             }
           }
         },
@@ -50,7 +52,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "localhost:5000/azureiotedgemodule1:0.0.1-amd64",
+              "image": "edgelife.azurecr.io/azureiotedgemodule1:0.0.1-amd64",
               "createOptions": "{}"
             }
           },
@@ -60,7 +62,7 @@
             "status": "running",
             "restartPolicy": "always",
             "settings": {
-              "image": "localhost:5000/azureiotedgemodule2:0.0.1-amd64",
+              "image": "edgelife.azurecr.io/azureiotedgemodule2:0.0.1-amd64",
               "createOptions": "{}"
             }
           }

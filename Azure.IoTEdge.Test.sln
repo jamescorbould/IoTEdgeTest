@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{34036844-64E7-43A5-9151-4AD90E180989}") = "Azure.IoTEdge.Test", "Azure.IoTEdge.Test\Azure.IoTEdge.Test.iotedgeproj", "{6BD32D03-0638-4243-A8EC-BC52C9855FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureIoTEdgeModule1", "AzureIoTEdgeModule1\AzureIoTEdgeModule1.csproj", "{B826749F-314E-4CCC-9A50-4ECD274199DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTEdgeModule1", "AzureIoTEdgeModule1\AzureIoTEdgeModule1.csproj", "{B826749F-314E-4CCC-9A50-4ECD274199DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureIoTEdgeModule2", "AzureIoTEdgeModule2\AzureIoTEdgeModule2.csproj", "{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTEdgeModule2", "AzureIoTEdgeModule2\AzureIoTEdgeModule2.csproj", "{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
