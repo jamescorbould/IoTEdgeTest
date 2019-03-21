@@ -69,43 +69,68 @@ namespace AzureIoTEdgeModule1
         {
             int counterValue = Interlocked.Increment(ref counter);
 
-            var moduleClient = userContext as ModuleClient;
-            if (moduleClient == null)
+            try
             {
-                throw new InvalidOperationException("UserContext doesn't contain " + "expected values");
-            }
-
-            byte[] messageBytes = message.GetBytes();
-            string messageString = Encoding.UTF8.GetString(messageBytes);
-            Console.WriteLine($"Received message: {counterValue}, Body: [{messageString}]");
-
-            if (!string.IsNullOrEmpty(messageString))
-            {
-                var messageBody = JsonConvert.DeserializeObject<MessageBody>(messageString);
-
-                if (messageBody != null && (messageBody.machine.temperature >= temperatureThresholdLow || messageBody.machine.temperature <= temperatureThresholdHigh))
+                var moduleClient = userContext as ModuleClient;
+                if (moduleClient == null)
                 {
-                    Console.WriteLine($"Machine temperature {messageBody.machine.temperature} between temperature threshold of {temperatureThresholdLow}-{temperatureThresholdHigh}.");
-
-                    Message filteredMessage = new Message(messageBytes);
-
-                    foreach (KeyValuePair<string, string> prop in message.Properties)
-                    {
-                        filteredMessage.Properties.Add(prop.Key, prop.Value);
-                    }
-                    
-                    filteredMessage.Properties.Add("MessageType", "Alert");
-
-                    // Send to IoT Hub.
-                    await moduleClient.SendEventAsync("output1", filteredMessage).ConfigureAwait(false);
+                    throw new InvalidOperationException("UserContext doesn't contain " + "expected values");
                 }
+
+                byte[] messageBytes = message.GetBytes();
+                string messageString = Encoding.UTF8.GetString(messageBytes);
+                Console.WriteLine($"Received message: {counterValue}, Body: [{messageString}]");
+
+                if (!string.IsNullOrEmpty(messageString))
+                {
+                    var messageBody = JsonConvert.DeserializeObject<MessageBody>(messageString);
+
+                    if (messageBody != null && (messageBody.machine.temperature >= temperatureThresholdLow || messageBody.machine.temperature <= temperatureThresholdHigh))
+                    {
+                        Console.WriteLine($"Machine temperature {messageBody.machine.temperature} between temperature threshold of {temperatureThresholdLow}-{temperatureThresholdHigh}.");
+
+                        Message filteredMessage = new Message(messageBytes);
+
+                        foreach (KeyValuePair<string, string> prop in message.Properties)
+                        {
+                            filteredMessage.Properties.Add(prop.Key, prop.Value);
+                        }
+                        
+                        filteredMessage.Properties.Add("MessageType", "Alert");
+
+                        // Send upstream to IoT Hub.
+                        await moduleClient.SendEventAsync("output1", filteredMessage).ConfigureAwait(false);
+                    }
+                }
+
+                Console.WriteLine("Send response completed.");
+
+                return MessageResponse.Completed;
             }
+            catch (AggregateException ex)
+            {
+                foreach (Exception exception in ex.InnerExceptions)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Error in sample: {0}", exception);
+                }
 
-            Console.WriteLine("Send response completed.");
+                // Indicate that the message treatment is not completed.
+                var moduleClient = (ModuleClient)userContext;
+                return MessageResponse.Abandoned;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Error in sample: {0}", ex.Message);
 
-            return MessageResponse.Completed;
+                // Indicate that the message treatment is not completed.
+                ModuleClient moduleClient = (ModuleClient)userContext;
+                return MessageResponse.Abandoned;
+            }
         }
     }
+
     class MessageBody
     {
         public Machine machine { get; set; }
