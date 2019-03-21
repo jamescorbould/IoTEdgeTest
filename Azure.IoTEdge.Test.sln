@@ -7,8 +7,6 @@ Project("{34036844-64E7-43A5-9151-4AD90E180989}") = "Azure.IoTEdge.Test", "Azure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTEdgeModule1", "AzureIoTEdgeModule1\AzureIoTEdgeModule1.csproj", "{B826749F-314E-4CCC-9A50-4ECD274199DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureIoTEdgeModule2", "AzureIoTEdgeModule2\AzureIoTEdgeModule2.csproj", "{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{B826749F-314E-4CCC-9A50-4ECD274199DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B826749F-314E-4CCC-9A50-4ECD274199DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B826749F-314E-4CCC-9A50-4ECD274199DA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B14A0D5-BFCE-4E7B-A69E-38146A7B21FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

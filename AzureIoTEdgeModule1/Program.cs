@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
 namespace AzureIoTEdgeModule1
 {
     using System;
@@ -13,6 +16,8 @@ namespace AzureIoTEdgeModule1
     class Program
     {
         static int counter;
+        const int temperatureThresholdLow = 25;
+        const int temperatureThresholdHigh = 26;
 
         static void Main()
         {
@@ -31,7 +36,7 @@ namespace AzureIoTEdgeModule1
         public static Task WhenCancelled(CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<bool>();
-            cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).SetResult(true), tcs);
+            cancellationToken.Register(s => ((TaskCompletionSource<bool>) s).SetResult(true), tcs);
             return tcs.Task;
         }
 
@@ -42,15 +47,17 @@ namespace AzureIoTEdgeModule1
         static async Task Init()
         {
             AmqpTransportSettings amqpSetting = new AmqpTransportSettings(TransportType.Amqp_Tcp_Only);
-            ITransportSettings[] settings = { amqpSetting };
+            ITransportSettings[] settings = {amqpSetting};
 
             // Open a connection to the Edge runtime
-            ModuleClient ioTHubModuleClient = await ModuleClient.CreateFromEnvironmentAsync(settings).ConfigureAwait(false);
+            ModuleClient ioTHubModuleClient =
+                await ModuleClient.CreateFromEnvironmentAsync(settings).ConfigureAwait(false);
             await ioTHubModuleClient.OpenAsync().ConfigureAwait(false);
             Console.WriteLine("IoT Hub module client initialized.");
 
             // Register callback to be called when a message is received by the module
-            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", PipeMessage, ioTHubModuleClient).ConfigureAwait(false);
+            await ioTHubModuleClient.SetInputMessageHandlerAsync("input1", PipeMessage, ioTHubModuleClient)
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -74,15 +81,47 @@ namespace AzureIoTEdgeModule1
 
             if (!string.IsNullOrEmpty(messageString))
             {
-                var pipeMessage = new Message(messageBytes);
-                foreach (var prop in message.Properties)
+                var messageBody = JsonConvert.DeserializeObject<MessageBody>(messageString);
+
+                if (messageBody != null && (messageBody.machine.temperature >= temperatureThresholdLow || messageBody.machine.temperature <= temperatureThresholdHigh))
                 {
-                    pipeMessage.Properties.Add(prop.Key, prop.Value);
+                    Console.WriteLine($"Machine temperature {messageBody.machine.temperature} between temperature threshold of {temperatureThresholdLow}-{temperatureThresholdHigh}.");
+
+                    Message filteredMessage = new Message(messageBytes);
+
+                    foreach (KeyValuePair<string, string> prop in message.Properties)
+                    {
+                        filteredMessage.Properties.Add(prop.Key, prop.Value);
+                    }
+                    
+                    filteredMessage.Properties.Add("MessageType", "Alert");
+
+                    // Send to IoT Hub.
+                    await moduleClient.SendEventAsync("output1", filteredMessage).ConfigureAwait(false);
                 }
-                await moduleClient.SendEventAsync("output1", pipeMessage).ConfigureAwait(false);
-                Console.WriteLine("Received message sent");
             }
+
+            Console.WriteLine("Send response completed.");
+
             return MessageResponse.Completed;
         }
+    }
+    class MessageBody
+    {
+        public Machine machine { get; set; }
+        public Ambient ambient { get; set; }
+        public string timeCreated { get; set; }
+    }
+
+    class Machine
+    {
+        public double temperature { get; set; }
+        public double pressure { get; set; }
+    }
+
+    class Ambient
+    {
+        public double temperature { get; set; }
+        public int humidity { get; set; }
     }
 }
