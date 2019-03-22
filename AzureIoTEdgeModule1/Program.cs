@@ -17,7 +17,7 @@ namespace AzureIoTEdgeModule1
     {
         static int counter;
         const int temperatureThresholdLow = 25;
-        const int temperatureThresholdHigh = 26;
+        const int temperatureThresholdHigh = 28;
 
         static void Main()
         {
@@ -85,7 +85,7 @@ namespace AzureIoTEdgeModule1
                 {
                     var messageBody = JsonConvert.DeserializeObject<MessageBody>(messageString);
 
-                    if (messageBody != null && (messageBody.machine.temperature >= temperatureThresholdLow || messageBody.machine.temperature <= temperatureThresholdHigh))
+                    if (messageBody != null && (messageBody.machine.temperature >= temperatureThresholdLow & messageBody.machine.temperature <= temperatureThresholdHigh))
                     {
                         Console.WriteLine($"Machine temperature {messageBody.machine.temperature} between temperature threshold of {temperatureThresholdLow}-{temperatureThresholdHigh}.");
 
